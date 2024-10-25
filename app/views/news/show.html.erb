@@ -1,0 +1,22 @@
+<h1><%= @news.title %></h1>
+<p><%= @news.content %></p>
+
+<h3>Comentarios</h3>
+<% @news.comments.each do |comment| %>
+  <p><strong><%= comment.user.email %></strong>: <%= comment.content %></p>
+  <% if current_user&.admin? %>
+    <%= link_to "Eliminar", news_comment_path(@news, comment), method: :delete, data: { confirm: '¿Estás seguro?' } %>
+  <% end %>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= form_with model: [@news, @news.comments.build] do |form| %>
+    <%= form.text_area :content %>
+    <%= form.submit "Comentar" %>
+  <% end %>
+<% else %>
+  <p><%= link_to 'Inicia sesión para comentar', new_user_session_path %></p>
+<% end %>
+
+<!-- Botón para volver a la lista de noticias -->
+<%= link_to 'Volver a Noticias', news_index_path, class: 'btn btn-primary' %>

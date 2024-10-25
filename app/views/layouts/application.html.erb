@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TheRialNews</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "news", media: "all" %>
+    <%= javascript_importmap_tags %>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <<header class="bg-dark text-white p-4">
+    <h1>TheRialNews</h1>
+    <div class="container">
+      <% if user_signed_in? %>
+        <p>Bienvenido, <%= current_user.email %> 
+          <% if current_user.admin? %>
+            <strong>(Admin)</strong>
+          <% else %>
+            <strong>(Usuario)</strong>
+          <% end %>
+        </p>
+        <%= link_to "Cerrar sesión", destroy_user_session_path, method: :delete, class: "btn btn-danger", data: { confirm: "¿Estás seguro de que deseas cerrar sesión?" } %>
+      <% else %>
+        <%= link_to 'Iniciar sesión', new_user_session_path, class: "btn btn-primary" %>
+        <%= link_to 'Registrarse', new_user_registration_path, class: "btn btn-secondary" %>
+      <% end %>
+    </div>
+  </header>
+  
+
+    <%= yield %>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
